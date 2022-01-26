@@ -61,6 +61,18 @@ table.insert(characters_sticker, " ")
 
 local create_alias = true
 
+local ui = minetest.get_modpath("unified_inventory")
+            and minetest.global_exists("unified_inventory") and unified_inventory
+
+if ui then
+    ui.register_craft_type("ehlphabet", {
+		description = "Printing",
+		icon = 'ehlphabet_machine_front.png',
+		width = 1,
+		height = 1
+	})
+end
+
 -- generate all available blocks
 local function generate(characters, craftable)
     for _, name in ipairs(characters) do
@@ -133,9 +145,23 @@ local function generate(characters, craftable)
             }
         )
 
+        if ui then
+            print(key)
+            ui.register_craft({
+                type = "ehlphabet",
+                items = { "ehlphabet:block" },
+                output = key
+            })
+            ui.register_craft({
+                type = "ehlphabet",
+                items = { "default:paper" },
+                output = key .. "_sticker"
+            })
+        end
+
     end
 end
-generate(characters)
+generate(characters, true)
 generate(additional_chars, true)
 minetest.register_craft({type = "shapeless", output = "ehlphabet:block", recipe = {"group:ehlphabet_block"}})
 
@@ -433,5 +459,5 @@ minetest.register_craft({
 
 
 
--- print(S("[MOD] Elphabet is loaded"))
+print("[ehlphabet] loaded")
 
