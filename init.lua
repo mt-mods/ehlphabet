@@ -146,7 +146,6 @@ local function generate(characters, craftable)
         )
 
         if ui then
-            print(key)
             ui.register_craft({
                 type = "ehlphabet",
                 items = { "ehlphabet:block" },
