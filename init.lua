@@ -63,6 +63,7 @@ local create_alias = true
 
 local ui = minetest.get_modpath("unified_inventory")
             and minetest.global_exists("unified_inventory") and unified_inventory
+local add_to_guides = ui and true or false
 
 if ui then
     ui.register_craft_type("ehlphabet", {
@@ -160,7 +161,7 @@ local function generate(characters, craftable)
 
     end
 end
-generate(characters, true)
+generate(characters, add_to_guides)
 generate(additional_chars, true)
 minetest.register_craft({type = "shapeless", output = "ehlphabet:block", recipe = {"group:ehlphabet_block"}})
 
