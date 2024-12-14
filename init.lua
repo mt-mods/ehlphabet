@@ -141,7 +141,7 @@ local function generate(characters, craftable)
                     dig_immediate = 2,
                     not_in_creative_inventory = craftable and 0 or 1,
                     not_in_crafting_guide = craftable and 0 or 1,
-                    not_blocking_trains = 1
+                    not_blocking_trains = 1,
                 },
             }
         )
