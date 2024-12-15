@@ -254,6 +254,10 @@ core.register_node("ehlphabet:machine", {
 			"list[context;input;2.5,0.2;1,1;]" ..
 			"list[context;output;4.5,0.2;1,1;]" ..
 			"list[current_player;main;0,2;8,4;]" ..
+			"listring[current_player;main]" ..
+			"listring[context;input]" ..
+			"listring[current_player;main]" ..
+			"listring[context;output]" ..
 			"button[2.54,-0.25;3,4;name;" .. S("Blank -> Letter") .. "]"
 		)
 	end,
