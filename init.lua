@@ -215,12 +215,6 @@ core.register_node("ehlphabet:machine", {
 
 
 
-                if player then
-                    minetest.chat_send_player(
-                        player:get_player_name(),
-                        S("You cannot dig the @1 with blocks inside", S("Letter Machine"))
-                    )
-                end -- end if player
         end,
                 "invsize[8,6;]" ..
 
