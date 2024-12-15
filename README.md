@@ -33,11 +33,15 @@ Textures are licensed under CC-BY-SA 3.0
 See LICENSE file
 
 ## Changelist
+2024-12-15 cleaned up by SwissalpS. Added stickers, shift-clicking inventories,
+recycling recipes and dropped [intllib] in favour of core translation. Also added
+Spanish and Catalan locales. (probably some more changes)
 
 2018-01-24 patched by Och_Noe to use it as replacement for abjphabet (create aliases)
 
-2018-03-29 support for UTF-8 and cyrillic letters added
+2018-03-29 support for UTF-8 and Cyrillic letters added
 
-2018-03-31 german letters added
+2018-03-31 German letters added
 
-2018-04-01 intllib support added with russian and german languages
+2018-04-01 intllib support added with Russian and German languages
+
