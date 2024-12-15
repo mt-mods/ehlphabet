@@ -51,7 +51,6 @@ table_merge(characters_sticker, characters)
 table_merge(characters_sticker, additional_chars)
 table.insert(characters_sticker, " ")
 
-local create_alias = true
 
 local function is_multibyte(ch)
 	local byte = ch:byte()
@@ -76,9 +75,9 @@ if ui then
 	})
 end
 
--- generate all available blocks
 local function generate(characters, craftable)
     for _, name in ipairs(characters) do
+local create_alias = true
 		local desc = S("Ehlphabet Block '@1'", name)
 		local byte = name:byte()
 		local mb = is_multibyte(name)
@@ -162,13 +161,21 @@ local function generate(characters, craftable)
 		end
 	end
 end
+
+-- generate all available blocks and stickers
 generate(characters, add_to_guides)
 generate(additional_chars, true)
 minetest.register_craft({type = "shapeless", output = "ehlphabet:block", recipe = {"group:ehlphabet_block"}})
 
+-- blank node
+core.register_node("ehlphabet:block", {
+	description = S("Ehlphabet Block (blank)"),
+	tiles = { "ehlphabet_000.png" },
+	is_ground_content = false,
+	groups = { cracky = 3 },
+})
 
-
--- empty sticker
+-- blank sticker
 	tiles = { "ehlphabet_000.png" },
 	paramtype = "light",
 	paramtype2 = "wallmounted", -- "colorwallmounted",
@@ -301,12 +308,6 @@ minetest.register_craft({
         {"default:paper", "", "default:paper"},
         {"default:paper", "default:paper", "default:paper"}
     }
-core.register_node("ehlphabet:block", {
-	description = S("Ehlphabet Block (blank)"),
-	tiles = { "ehlphabet_000.png" },
-	is_ground_content = false,
-	groups = { cracky = 3 },
-})
 
 --RECIPE: build the machine!
 minetest.register_craft({
