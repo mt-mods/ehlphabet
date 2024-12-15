@@ -80,7 +80,6 @@ local create_alias = true
 -- Helper function to register blocks and stickers.
 local function generate(chars, add_to_guides)
 	for _, name in ipairs(chars) do
-		local desc = S('Ehlphabet Block "@1"', name)
 		local byte = name:byte()
 		local file, key
 
@@ -98,7 +97,7 @@ local function generate(chars, add_to_guides)
 
 		-- Register the block node.
 		core.register_node(key, {
-			description = desc,
+			description = S('Ehlphabet Block "@1"', name),
 			tiles = { "ehlphabet_" .. file .. ".png" },
 			paramtype2 = "facedir",
 			on_rotate = screwdriver.rotate_simple,
@@ -123,7 +122,7 @@ local function generate(chars, add_to_guides)
 
 		-- Register the sticker node.
 		core.register_node(key .. "_sticker", {
-			description = desc .. "Sticker",
+			description = S('Ehlphabet Sticker "@1"', name),
 			tiles = { "ehlphabet_" .. file .. ".png" },
 			paramtype = "light",
 			paramtype2 = "wallmounted", -- "colorwallmounted",
@@ -176,6 +175,7 @@ core.register_node("ehlphabet:block", {
 
 -- Register blank sticker.
 core.register_node("ehlphabet:32_sticker", {
+	description = S("Ehlphabet Sticker (blank)"),
 	tiles = { "ehlphabet_000.png" },
 	paramtype = "light",
 	paramtype2 = "wallmounted", -- "colorwallmounted",
