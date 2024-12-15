@@ -26,10 +26,6 @@ msgid "Letter Machine"
 msgstr "Станок букв"
 
 #: init.lua
-msgid "You cannot dig the @1 with blocks inside"
-msgstr "Ты не можеш убрать @1 пока он наполнен блоками"
-
-#: init.lua
 msgid "Letter"
 msgstr "Буква"
 

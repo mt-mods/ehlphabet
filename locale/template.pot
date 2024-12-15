@@ -26,10 +26,6 @@ msgid "Letter Machine"
 msgstr ""
 
 #: init.lua
-msgid "You cannot dig the @1 with blocks inside"
-msgstr ""
-
-#: init.lua
 msgid "Letter"
 msgstr ""
 

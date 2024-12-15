@@ -108,7 +108,6 @@ local function generate(chars, add_to_guides)
 				not_in_crafting_guide = add_to_guides and 0 or 1,
 				ehlphabet_block = 1,
 			},
-		--core.register_craft({ type = "shapeless", output = "ehlphabet:block", recipe = { key } })
 		})
 
 		-- Backward compat for base latin characters.
@@ -120,7 +119,6 @@ local function generate(chars, add_to_guides)
 			create_alias = false
 		end
 
-                drop = "",  -- new
 		-- Register the sticker node.
 		core.register_node(key .. "_sticker", {
 			description = desc .. "Sticker",
@@ -179,7 +177,6 @@ core.register_node("ehlphabet:block", {
 	paramtype2 = "wallmounted", -- "colorwallmounted",
 	on_rotate = screwdriver.rotate_simple,
 	drawtype = "nodebox",
-	drop = "",
 	node_box = {
 		type = "wallmounted",
 		wall_bottom = { -0.5, -0.5, -0.5, 0.5, -0.49, 0.5 },
@@ -292,5 +289,5 @@ core.register_node("ehlphabet:machine", {
 core.register_alias("abjphabet:machine", "ehlphabet:machine")
 --
 
-print("[ehlphabet] loaded")
+--print("[ehlphabet] loaded")
 

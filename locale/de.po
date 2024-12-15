@@ -26,10 +26,6 @@ msgid "Letter Machine"
 msgstr "Zeichenmaschine"
 
 #: init.lua
-msgid "You cannot dig the @1 with blocks inside"
-msgstr "Du kannst die @1 nicht wegräumen solange sie gefüllt ist"
-
-#: init.lua
 msgid "Letter"
 msgstr "Zeichen"
 
