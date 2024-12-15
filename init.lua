@@ -2,10 +2,7 @@
 ehlphabet = {}
 ehlphabet.path = core.get_modpath(core.get_current_modname())
 
--- TODO: use core translation system
--- Intllib
-local S = dofile(ehlphabet.path .. "/intllib.lua")
-ehlphabet.intllib = S
+local S = core.get_translator("ehlphabet")
 
 ehlphabet.has_unified_inventory = core.get_modpath("unified_inventory")
 			and core.global_exists("unified_inventory") and true or false

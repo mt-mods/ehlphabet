@@ -1,0 +1,13 @@
+# textdomain: ehlphabet
+# Russian translation of ehlphabet mod
+# This file is distributed under the same license as the ehlphabet package.
+
+### init.lua ###
+Ehlphabet Block "@1"=Блок эльфавита «@1»
+Ehlphabet Sticker "@1"=Наклейка эльфавита «@1»
+Letter Machine=Станок букв
+Letter=Буква
+Blank -> Letter=Бланк -> Буква
+Ehlphabet Block (blank)=Блок эльфавита (бланк)
+Ehlphabet Sticker (blank)=Наклейка эльфавита (бланк)
+
