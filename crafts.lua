@@ -1,9 +1,5 @@
 -- TODO: xcompat: paper, stick, coal lump
 
-core.register_craft({
-	type = "shapeless",
-	output = "ehlphabet:block",
-	recipe = { "group:ehlphabet_block" },
 if ehlphabet.has_unified_inventory then
 	unified_inventory.register_craft_type("ehlphabet", {
 		description = "Printing",
@@ -12,14 +8,6 @@ if ehlphabet.has_unified_inventory then
 		height = 1,
 	})
 
-core.register_craft({
-	output = "ehlphabet:block 8",
-	recipe = {
-		{ "default:paper", "default:paper", "default:paper" },
-		{ "default:paper", "", "default:paper" },
-		{ "default:paper", "default:paper", "default:paper" },
-	},
-})
 	unified_inventory.register_craft({
 		type = "ehlphabet",
 		items = { "default:paper" },
@@ -38,6 +26,15 @@ core.register_craft({
 })
 
 -- Blank blocks.
+core.register_craft({
+	output = "ehlphabet:block 8",
+	recipe = {
+		{ "default:paper", "default:paper", "default:paper" },
+		{ "default:paper", "", "default:paper" },
+		{ "default:paper", "default:paper", "default:paper" },
+	},
+})
+
 -- Uncraft blocks back into paper
 core.register_craft({
 	output = "default:paper",
@@ -46,7 +43,19 @@ core.register_craft({
 })
 
 -- Recycle printed blocks.
+core.register_craft({
+	type = "shapeless",
+	output = "ehlphabet:block",
+	recipe = { "group:ehlphabet_block" },
+})
+
 -- Recycle printed stickers.
+core.register_craft({
+	type = "shapeless",
+	output = "default:paper",
+	recipe = { "group:ehlphabet_sticker" },
+})
+
 -- Chinese character blocks - craft from latin characters.
 core.register_craft({
 	output = "ehlphabet:231140 4",
