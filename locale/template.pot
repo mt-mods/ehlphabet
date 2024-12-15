@@ -18,7 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: init.lua
-msgid "Ehlphabet Block '@1'"
+msgid "Ehlphabet Block \"@1\""
+msgstr ""
+
+#: init.lua
+msgid "Ehlphabet Sticker \"@1\""
 msgstr ""
 
 #: init.lua
@@ -35,5 +39,9 @@ msgstr ""
 
 #: init.lua
 msgid "Ehlphabet Block (blank)"
+msgstr ""
+
+#: init.lua
+msgid "Ehlphabet Sticker (blank)"
 msgstr ""
 
