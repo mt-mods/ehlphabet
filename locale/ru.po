@@ -41,6 +41,3 @@ msgstr "Бланк -> Буква"
 msgid "Ehlphabet Block (blank)"
 msgstr "Блок эльфавита (бланк)"
 
-#: init.lua
-msgid "[MOD] Elphabet is loaded"
-msgstr "[MOD] Эльфавит загружен"

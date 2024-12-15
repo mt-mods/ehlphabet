@@ -41,6 +41,3 @@ msgstr ""
 msgid "Ehlphabet Block (blank)"
 msgstr ""
 
-#: init.lua
-msgid "[MOD] Elphabet is loaded"
-msgstr ""

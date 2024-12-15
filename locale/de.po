@@ -41,6 +41,3 @@ msgstr "Blanko -> Zeichen"
 msgid "Ehlphabet Block (blank)"
 msgstr "Ehlphabet Block (Blanko)"
 
-#: init.lua
-msgid "[MOD] Elphabet is loaded"
-msgstr "[MOD] Elphabet wurde geladen"
