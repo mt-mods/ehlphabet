@@ -217,14 +217,6 @@ core.register_node("ehlphabet:machine", {
 
         end,
 
-                if  inputstack:get_name() == "ehlphabet:block"
-                 or inputstack:get_name() == "default:paper" then
-                    local mb = is_multibyte(ch)
-                    local key = mb and (ch:byte(1) .. ch:byte(2)) or ch:byte()
-                    key = key .. (inputstack:get_name() == "default:paper" and "_sticker" or "")
-                    local clist = characters
-                    if inputstack:get_name() == "default:paper" then
-		       clist = characters_sticker
 		    end
                 end
             end
@@ -267,12 +259,27 @@ core.register_node("ehlphabet:machine", {
 		local inv = meta:get_inventory()
 		local inputstack = inv:get_stack("input", 1)
 		local outputstack = inv:get_stack("output", 1)
+		local input_stack_name = inputstack:get_name()
+		local input_is_block = input_stack_name == "ehlphabet:block"
+		local input_is_paper = input_stack_name == "default:paper"
+		if not (input_is_block or input_is_paper) then
+			return
+		end
+
+		local key = ch:byte()
+		if is_multibyte(ch) then
+			key = ch:byte(1) .. ch:byte(2)
+		end
+		if input_is_paper then
+			key = key .. "_sticker"
+		end
 		local out_stack_name = outputstack:get_name()
 		if out_stack_name ~= "" and out_stack_name ~= "ehlphabet:" .. key then
 			-- other type in output slot -> abort
 			return
 		end
 
+		local clist = input_is_paper and characters_sticker or characters
 		for _, v in ipairs(clist) do
 			if v == ch then
 				inv:add_item("output", "ehlphabet:" .. key)
