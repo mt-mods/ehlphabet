@@ -212,17 +212,6 @@ core.register_node("ehlphabet:machine", {
 	is_ground_content = false,
 	groups = { cracky = 2 },
 
-
-
-
-        end,
-
-		    end
-                end
-            end
-        end
-    }
-)
 	-- "Can you dig it?" -Cyrus
 	can_dig = function(pos)
 		local meta = core.get_meta(pos)
@@ -255,6 +244,9 @@ core.register_node("ehlphabet:machine", {
 	on_receive_fields = function(pos, _, fields)
 		local ch = fields.lettername
 		if not ch or ch == "" then
+			return
+		end
+
 		local meta = core.get_meta(pos)
 		local inv = meta:get_inventory()
 		local inputstack = inv:get_stack("input", 1)
