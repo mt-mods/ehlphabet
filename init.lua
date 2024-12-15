@@ -65,7 +65,7 @@ table.insert(characters_sticker, " ")
 -- Helper function to detect multi-byte characters.
 local function is_multibyte(ch)
 	local byte = ch:byte()
-	-- return (195 == byte) or (208 == byte) or (209 == byte)
+	--return (195 == byte) or (208 == byte) or (209 == byte)
 	if not byte then
 		return false
 	else
@@ -81,10 +81,10 @@ local create_alias = true
 local function generate(chars, add_to_guides)
 	for _, name in ipairs(chars) do
 		local byte = name:byte()
-		local mb = is_multibyte(name)
 		local file, key
 
 		-- Adjust for multi-byte characters.
+		local mb = is_multibyte(name)
 		if mb then
 			mb = byte
 			byte = name:byte(2)
@@ -95,14 +95,12 @@ local function generate(chars, add_to_guides)
 			file = ("%03d"):format(byte)
 		end
 
-            }
-        )
 		-- Register the block node.
 		core.register_node(key, {
 			description = desc,
 			tiles = { "ehlphabet_" .. file .. ".png" },
 			paramtype2 = "facedir",
-			on_rotate = screwdriver.rotate_simple ,
+			on_rotate = screwdriver.rotate_simple,
 			is_ground_content = false,
 			groups = {
 				cracky = 3,
@@ -111,6 +109,7 @@ local function generate(chars, add_to_guides)
 				ehlphabet_block = 1,
 			},
 		--core.register_craft({ type = "shapeless", output = "ehlphabet:block", recipe = { key } })
+		})
 
 		-- Backward compat for base latin characters.
 		if create_alias then
@@ -121,32 +120,30 @@ local function generate(chars, add_to_guides)
 			create_alias = false
 		end
 
-                description = desc.."Sticker",
-                tiles = {"ehlphabet_" .. file .. ".png"},
-                paramtype = "light",
-                paramtype2 = "wallmounted", -- "colorwallmounted",
-                on_rotate = screwdriver.rotate_simple ,
-                drawtype = "nodebox",
-                is_ground_content = false,
                 drop = "",  -- new
-            node_box = {
-                type = "wallmounted",
-                wall_bottom = {-0.5, -0.5, -0.5, 0.5, -0.49, 0.5},
-                wall_top = {-0.5, 0.49, -0.5, 0.5, 0.5, 0.5},
-                wall_side = {-0.5, -0.5, -0.5, -0.49, 0.5, 0.5},
-                    },
-                groups = {
-                    attached_node = 1,
-                    dig_immediate = 2,
-                    not_blocking_trains = 1,
-                },
-            }
-        )
 		-- Register the sticker node.
 		core.register_node(key .. "_sticker", {
 			description = desc .. "Sticker",
+			tiles = { "ehlphabet_" .. file .. ".png" },
+			paramtype = "light",
+			paramtype2 = "wallmounted", -- "colorwallmounted",
+			on_rotate = screwdriver.rotate_simple,
+			drawtype = "nodebox",
+			node_box = {
+				type = "wallmounted",
+				wall_bottom = { -0.5, -0.5, -0.5, 0.5, -0.49, 0.5 },
+				wall_top = { -0.5, 0.49, -0.5, 0.5, 0.5, 0.5 },
+				wall_side = { -0.5, -0.5, -0.5, -0.49, 0.5, 0.5 },
+			},
+			is_ground_content = false,
+			groups = {
+				attached_node = 1,
+				dig_immediate = 2,
 				not_in_creative_inventory = add_to_guides and 0 or 1,
 				not_in_crafting_guide = add_to_guides and 0 or 1,
+				not_blocking_trains = 1,
+			},
+		})
 
 		-- Register both with [unified_inventory] when available.
 		if ehlphabet.has_unified_inventory then
@@ -182,7 +179,6 @@ core.register_node("ehlphabet:block", {
 	paramtype2 = "wallmounted", -- "colorwallmounted",
 	on_rotate = screwdriver.rotate_simple,
 	drawtype = "nodebox",
-	is_ground_content = false,
 	drop = "",
 	node_box = {
 		type = "wallmounted",
@@ -190,6 +186,7 @@ core.register_node("ehlphabet:block", {
 		wall_top = { -0.5, 0.49, -0.5, 0.5, 0.5, 0.5 },
 		wall_side = { -0.5, -0.5, -0.5, -0.49, 0.5, 0.5 },
 	},
+	is_ground_content = false,
 	groups = {
 		attached_node = 1,
 		dig_immediate = 2,
@@ -212,63 +209,30 @@ core.register_node("ehlphabet:machine", {
 	},
 	paramtype = "light",
 	paramtype2 = "facedir",
-	groups = { cracky = 2 },
 	is_ground_content = false,
+	groups = { cracky = 2 },
 
 
 
 
-        can_dig = function(pos, player)
             local meta = minetest.env:get_meta(pos)
-            local inv = meta:get_inventory()
-            if not inv:is_empty("input") or not inv:is_empty("output") then
                 if player then
                     minetest.chat_send_player(
                         player:get_player_name(),
                         S("You cannot dig the @1 with blocks inside", S("Letter Machine"))
                     )
                 end -- end if player
-                return false
-            end -- end if not empty
-            return true
-        end, -- end can_dig function
-
-        after_place_node = function(pos, placer)
             local meta = minetest.env:get_meta(pos)
         end,
-
-        on_construct = function(pos)
             local meta = minetest.env:get_meta(pos)
-            meta:set_string(
-                "formspec",
                 "invsize[8,6;]" ..
-                "field[3.8,.5;1,1;lettername;" .. S("Letter") .. ";]" ..
-                "list[current_name;input;2.5,0.2;1,1;]" ..
-                "list[current_name;output;4.5,0.2;1,1;]" ..
-                "list[current_player;main;0,2;8,4;]" ..
-                "button[2.54,-0.25;3,4;name;" .. S("Blank -> Letter") .. "]"
-            )
-            local inv = meta:get_inventory()
-            inv:set_size("input", 1)
-            inv:set_size("output", 1)
-        end,
-
-        on_receive_fields = function(pos, formname, fields, sender)
             local meta = minetest.env:get_meta(pos)
-            local inv = meta:get_inventory()
-            local inputstack = inv:get_stack("input", 1)
-            local outputstack = inv:get_stack("output", 1)
-            local ch = fields.lettername
 
-            if ch ~= nil and ch ~= "" then
                 if  inputstack:get_name() == "ehlphabet:block"
                  or inputstack:get_name() == "default:paper" then
                     local mb = is_multibyte(ch)
                     local key = mb and (ch:byte(1) .. ch:byte(2)) or ch:byte()
                     key = key .. (inputstack:get_name() == "default:paper" and "_sticker" or "")
-                        --  other type in output slot -> abort
-                        return
-                    end
                     local clist = characters
                     if inputstack:get_name() == "default:paper" then
 		       clist = characters_sticker
@@ -281,20 +245,52 @@ core.register_node("ehlphabet:machine", {
     }
 )
 	-- "Can you dig it?" -Cyrus
+	can_dig = function(pos)
+		local inv = meta:get_inventory()
+		if not inv:is_empty("input") or not inv:is_empty("output") then
+			return false
+		end
+		return true
+	end,
+
+	on_construct = function(pos)
+		local inv = meta:get_inventory()
+		inv:set_size("input", 1)
+		inv:set_size("output", 1)
+		meta:set_string("formspec",
+			"field[3.8,.5;1,1;lettername;" .. S("Letter") .. ";]" ..
+			"list[context;input;2.5,0.2;1,1;]" ..
+			"list[context;output;4.5,0.2;1,1;]" ..
+			"list[current_player;main;0,2;8,4;]" ..
+			"button[2.54,-0.25;3,4;name;" .. S("Blank -> Letter") .. "]"
+		)
+	end,
+
+	on_receive_fields = function(pos, _, fields)
+		local ch = fields.lettername
+		if not ch or ch == "" then
+		local inv = meta:get_inventory()
+		local inputstack = inv:get_stack("input", 1)
+		local outputstack = inv:get_stack("output", 1)
 		local out_stack_name = outputstack:get_name()
 		if out_stack_name ~= "" and out_stack_name ~= "ehlphabet:" .. key then
+			-- other type in output slot -> abort
+			return
+		end
+
 			if v == ch then
 				inv:add_item("output", "ehlphabet:" .. key)
 				inputstack:take_item()
 				inv:set_stack("input", 1, inputstack)
 				break
 			end
+		end
+	end,
+})
 
 --  Alias  (Och_Noe 20180124)
 core.register_alias("abjphabet:machine", "ehlphabet:machine")
 --
-
-
 
 print("[ehlphabet] loaded")
 
