@@ -1,4 +1,20 @@
-local digits = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"}
+
+ehlphabet = {}
+ehlphabet.path = core.get_modpath(core.get_current_modname())
+
+-- TODO: use core translation system
+-- Intllib
+local S = dofile(ehlphabet.path .. "/intllib.lua")
+ehlphabet.intllib = S
+
+local function table_merge(t1, t2)
+	for _, v in ipairs(t2) do
+		table.insert(t1, v)
+	end
+	return t1
+end
+
+local digits = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" }
 local base_chars = {
     "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O",
     "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"
@@ -24,19 +40,6 @@ local additional_chars = {
 local characters = {}
 local characters_sticker = {}
 
-ehlphabet = {}
-ehlphabet.path = minetest.get_modpath(minetest.get_current_modname())
-
--- Intllib
-local S, NS = dofile(ehlphabet.path .. "/intllib.lua")
-ehlphabet.intllib = S
-
-local function table_merge(t1, t2)
-    for k, v in ipairs(t2) do
-       table.insert(t1, v)
-    end
-    return t1
-end
 
 local function is_multibyte(ch)
     local byte = ch:byte()
