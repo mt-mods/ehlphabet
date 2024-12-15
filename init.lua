@@ -73,14 +73,13 @@ local function is_multibyte(ch)
 	end
 end
 
-
-local function generate(characters, craftable)
-    for _, name in ipairs(characters) do
 -- For backward compatability with [abjphabet].
 -- Used by generate() function.
 local create_alias = true
 		local desc = S("Ehlphabet Block '@1'", name)
 -- Helper function to generate blocks and stickers.
+local function generate(chars, add_to_guides)
+	for _, name in ipairs(chars) do
 		local byte = name:byte()
 		local mb = is_multibyte(name)
 		local file, key
@@ -96,12 +95,10 @@ local create_alias = true
 			file = ("%03d"):format(byte)
 		end
 
-        minetest.register_node(
-            key,
-            {
             }
         )
 		-- Register the block node.
+		core.register_node(key, {
 			description = desc,
 			tiles = { "ehlphabet_" .. file .. ".png" },
 			paramtype2 = "facedir",
@@ -109,8 +106,8 @@ local create_alias = true
 			is_ground_content = false,
 			groups = {
 				cracky = 3,
-				not_in_creative_inventory = craftable and 0 or 1,
-				not_in_crafting_guide = craftable and 0 or 1,
+				not_in_creative_inventory = add_to_guides and 0 or 1,
+				not_in_crafting_guide = add_to_guides and 0 or 1,
 				ehlphabet_block = 1,
 			},
 		--core.register_craft({ type = "shapeless", output = "ehlphabet:block", recipe = { key } })
@@ -124,9 +121,6 @@ local create_alias = true
 			create_alias = false
 		end
 
-        minetest.register_node(
-            key.."_sticker",
-            {
                 description = desc.."Sticker",
                 tiles = {"ehlphabet_" .. file .. ".png"},
                 paramtype = "light",
@@ -144,13 +138,15 @@ local create_alias = true
                 groups = {
                     attached_node = 1,
                     dig_immediate = 2,
-                    not_in_creative_inventory = craftable and 0 or 1,
-                    not_in_crafting_guide = craftable and 0 or 1,
                     not_blocking_trains = 1,
                 },
             }
         )
 		-- Register the sticker node.
+		core.register_node(key .. "_sticker", {
+			description = desc .. "Sticker",
+				not_in_creative_inventory = add_to_guides and 0 or 1,
+				not_in_crafting_guide = add_to_guides and 0 or 1,
 
 		-- Register both with [unified_inventory] when available.
 		if ehlphabet.has_unified_inventory then
@@ -275,12 +271,9 @@ core.register_node("ehlphabet:machine", {
             if ch ~= nil and ch ~= "" then
                 if  inputstack:get_name() == "ehlphabet:block"
                  or inputstack:get_name() == "default:paper" then
-                    local ost = outputstack:get_name()
                     local mb = is_multibyte(ch)
                     local key = mb and (ch:byte(1) .. ch:byte(2)) or ch:byte()
                     key = key .. (inputstack:get_name() == "default:paper" and "_sticker" or "")
-                    if ost ~= "" and
-                       ost ~= "ehlphabet:"..key then
                         --  other type in output slot -> abort
                         return
                     end
@@ -296,8 +289,10 @@ core.register_node("ehlphabet:machine", {
     }
 )
 	-- "Can you dig it?" -Cyrus
+		local out_stack_name = outputstack:get_name()
+		if out_stack_name ~= "" and out_stack_name ~= "ehlphabet:" .. key then
 			if v == ch then
-				inv:add_item("output", "ehlphabet:" .. key_new)
+				inv:add_item("output", "ehlphabet:" .. key)
 				inputstack:take_item()
 				inv:set_stack("input", 1, inputstack)
 				break
