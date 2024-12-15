@@ -16,40 +16,29 @@ end
 
 local digits = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" }
 local base_chars = {
-    "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O",
-    "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"
+	"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O",
+	"P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"
 }
 local special_chars = {
-    "!", "#", "$", "%", "&", "(", ")", "*", "+", ",", "-", ".", "/", ":", ";",
-    "<", "=", ">", "?", "@", "'", '"'
+	"!", "#", "$", "%", "&", "(", ")", "*", "+", ",", "-", ".", "/", ":", ";",
+	"<", "=", ">", "?", "@", "'", '"'
 }
-local german_chars = {"Ä", "Ö", "Ü", "ß"}
+local german_chars = { "Ä", "Ö", "Ü", "ß" }
 local cyrillic_chars = {
-    "А", "Б", "В", "Г", "Д", "Е", "Ё", "Ж", "З", "И", "Й", "К", "Л", "М", "Н",
-    "О", "П", "Р", "С", "Т", "У", "Ф", "Х", "Ц", "Ч", "Ш", "Щ", "Ъ", "Ы", "Ь",
-    "Э", "Ю", "Я"
+	"А", "Б", "В", "Г", "Д", "Е", "Ё", "Ж", "З", "И", "Й", "К", "Л", "М", "Н",
+	"О", "П", "Р", "С", "Т", "У", "Ф", "Х", "Ц", "Ч", "Ш", "Щ", "Ъ", "Ы", "Ь",
+	"Э", "Ю", "Я"
 }
 local greek_chars = {
-    "Α", "Β", "Γ", "Δ", "Ε", "Ζ", "Η", "Θ", "Ι", "Κ", "Λ", "Μ", "Ν", "Ξ", "Ο",
-    "Π", "Ρ", "Σ", "Τ", "Υ", "Φ", "Χ", "Ψ", "Ω"
+	"Α", "Β", "Γ", "Δ", "Ε", "Ζ", "Η", "Θ", "Ι", "Κ", "Λ", "Μ", "Ν", "Ξ", "Ο",
+	"Π", "Ρ", "Σ", "Τ", "Υ", "Φ", "Χ", "Ψ", "Ω"
 }
 local additional_chars = {
-    "猫","北","东","東","南","西","站",
+	"猫","北","东","東","南","西","站",
 }
 
 local characters = {}
 local characters_sticker = {}
-
-
-local function is_multibyte(ch)
-    local byte = ch:byte()
-    -- return (195 == byte) or (208 == byte) or (209 == byte)
-    if not byte then
-       return false
-    else
-       return (byte > 191)
-    end
-end
 
 table_merge(characters, base_chars)
 table_merge(characters, digits)
@@ -64,63 +53,73 @@ table.insert(characters_sticker, " ")
 
 local create_alias = true
 
-local ui = minetest.get_modpath("unified_inventory")
-            and minetest.global_exists("unified_inventory") and unified_inventory
+local function is_multibyte(ch)
+	local byte = ch:byte()
+	-- return (195 == byte) or (208 == byte) or (209 == byte)
+	if not byte then
+		return false
+	else
+		return byte > 191
+	end
+end
+
+local ui = core.get_modpath("unified_inventory")
+			and core.global_exists("unified_inventory") and unified_inventory
 local add_to_guides = ui and true or false
 
 if ui then
-    ui.register_craft_type("ehlphabet", {
+	ui.register_craft_type("ehlphabet", {
 		description = "Printing",
 		icon = 'ehlphabet_machine_front.png',
 		width = 1,
-		height = 1
+		height = 1,
 	})
 end
 
 -- generate all available blocks
 local function generate(characters, craftable)
     for _, name in ipairs(characters) do
-        local desc = S("Ehlphabet Block '@1'", name)
-        local byte = name:byte()
-        local mb = is_multibyte(name)
-        local file, key
+		local desc = S("Ehlphabet Block '@1'", name)
+		local byte = name:byte()
+		local mb = is_multibyte(name)
+		local file, key
 
-        if mb then
-            mb = byte
-            byte = name:byte(2)
-            key = "ehlphabet:" .. mb .. byte
-            file = ("%03d_%03d"):format(mb, byte)
-        else
-            key = "ehlphabet:" .. byte
-            file = ("%03d"):format(byte)
-        end
+		if mb then
+			mb = byte
+			byte = name:byte(2)
+			key = "ehlphabet:" .. mb .. byte
+			file = ("%03d_%03d"):format(mb, byte)
+		else
+			key = "ehlphabet:" .. byte
+			file = ("%03d"):format(byte)
+		end
 
         minetest.register_node(
             key,
             {
-                description = desc,
-                tiles = {"ehlphabet_" .. file .. ".png"},
-            paramtype2 = "facedir",      -- neu
-                on_rotate = screwdriver.rotate_simple ,   -- neu
-                is_ground_content = false,   --neu
-                groups = {
-                    cracky = 3,
-                    not_in_creative_inventory = craftable and 0 or 1,
-                    not_in_crafting_guide = craftable and 0 or 1,
-                    ehlphabet_block = 1
-                }
             }
         )
-    --    minetest.register_craft({type = "shapeless", output = "ehlphabet:block", recipe = {key}})
+			description = desc,
+			tiles = { "ehlphabet_" .. file .. ".png" },
+			paramtype2 = "facedir",
+			on_rotate = screwdriver.rotate_simple ,
+			is_ground_content = false,
+			groups = {
+				cracky = 3,
+				not_in_creative_inventory = craftable and 0 or 1,
+				not_in_crafting_guide = craftable and 0 or 1,
+				ehlphabet_block = 1,
+			},
+		--core.register_craft({ type = "shapeless", output = "ehlphabet:block", recipe = { key } })
 
-        if create_alias then
-            minetest.register_alias("abjphabet:" .. name, key)
-        end
+		if create_alias then
+			core.register_alias("abjphabet:" .. name, key)
+		end
 
-        -- deactivate alias creation on last latin character
-        if name == "Z" then
-            create_alias = false
-        end
+		-- deactivate alias creation on last latin character
+		if name == "Z" then
+			create_alias = false
+		end
 
         minetest.register_node(
             key.."_sticker",
@@ -149,20 +148,19 @@ local function generate(characters, craftable)
             }
         )
 
-        if ui then
-            ui.register_craft({
-                type = "ehlphabet",
-                items = { "ehlphabet:block" },
-                output = key
-            })
-            ui.register_craft({
-                type = "ehlphabet",
-                items = { "default:paper" },
-                output = key .. "_sticker"
-            })
-        end
-
-    end
+		if ui then
+			ui.register_craft({
+				type = "ehlphabet",
+				items = { "ehlphabet:block" },
+				output = key,
+			})
+			ui.register_craft({
+				type = "ehlphabet",
+				items = { "default:paper" },
+				output = key .. "_sticker",
+			})
+		end
+	end
 end
 generate(characters, add_to_guides)
 generate(additional_chars, true)
@@ -171,6 +169,26 @@ minetest.register_craft({type = "shapeless", output = "ehlphabet:block", recipe 
 
 
 -- empty sticker
+	tiles = { "ehlphabet_000.png" },
+	paramtype = "light",
+	paramtype2 = "wallmounted", -- "colorwallmounted",
+	on_rotate = screwdriver.rotate_simple,
+	drawtype = "nodebox",
+	is_ground_content = false,
+	drop = "",
+	node_box = {
+		type = "wallmounted",
+		wall_bottom = { -0.5, -0.5, -0.5, 0.5, -0.49, 0.5 },
+		wall_top = { -0.5, 0.49, -0.5, 0.5, 0.5, 0.5 },
+		wall_side = { -0.5, -0.5, -0.5, -0.49, 0.5, 0.5 },
+	},
+	groups = {
+		attached_node = 1,
+		dig_immediate = 2,
+		not_in_creative_inventory = 1,
+		not_blocking_trains = 1,
+	},
+})
 
 local key = "ehlphabet:32"
 local file = ("%03d"):format(32)
@@ -180,43 +198,23 @@ minetest.register_node(
  key.."_sticker",
  {
     description = desc.."Sticker",
-    tiles = {"ehlphabet_000.png"},
-    paramtype = "light",
-    paramtype2 = "wallmounted", -- "colorwallmounted",
-    on_rotate = screwdriver.rotate_simple ,
-    drawtype = "nodebox",
-    is_ground_content = false,
-    drop = "",  -- new
-    node_box = {
-       type = "wallmounted",
-       wall_bottom = {-0.5, -0.5, -0.5, 0.5, -0.49, 0.5},
-       wall_top = {-0.5, 0.49, -0.5, 0.5, 0.5, 0.5},
-       wall_side = {-0.5, -0.5, -0.5, -0.49, 0.5, 0.5},
-    },
-    groups = {attached_node = 1, dig_immediate = 2,
-       not_in_creative_inventory = 1,
-       not_blocking_trains = 1 },
- }
-)
+core.register_node("ehlphabet:machine", {
+	description = S("Letter Machine"),
+	tiles = {
+		"ehlphabet_machine_top.png",
+		"ehlphabet_machine_bottom.png",
+		"ehlphabet_machine_side.png",
+		"ehlphabet_machine_side.png",
+		"ehlphabet_machine_back.png",
+		"ehlphabet_machine_front.png",
+	},
+	paramtype = "light",
+	paramtype2 = "facedir",
+	groups = { cracky = 2 },
+	is_ground_content = false,
 
 
 
-minetest.register_node(
-    "ehlphabet:machine",
-    {
-        description = S("Letter Machine"),
-        tiles = {
-            "ehlphabet_machine_top.png",
-            "ehlphabet_machine_bottom.png",
-            "ehlphabet_machine_side.png",
-            "ehlphabet_machine_side.png",
-            "ehlphabet_machine_back.png",
-            "ehlphabet_machine_front.png"
-        },
-        paramtype = "light",
-        paramtype2 = "facedir",
-        groups = {cracky = 2},
-        is_ground_content = false,
 
         -- "Can you dig it?" -Cyrus
         can_dig = function(pos, player)
@@ -278,33 +276,22 @@ minetest.register_node(
 		       clist = characters_sticker
 		    end
                     for _, v in pairs(clist) do
-                        if v == ch then
-                            local give = {}
-                            give[1] = inv:add_item("output", "ehlphabet:" .. key)
-                            inputstack:take_item()
-                            inv:set_stack("input", 1, inputstack)
-                            break
-                        end
                     end
                 end
             end
         end
     }
 )
+			if v == ch then
+				inv:add_item("output", "ehlphabet:" .. key_new)
+				inputstack:take_item()
+				inv:set_stack("input", 1, inputstack)
+				break
+			end
 
 --  Alias  (Och_Noe 20180124)
-minetest.register_alias("abjphabet:machine", "ehlphabet:machine")
+core.register_alias("abjphabet:machine", "ehlphabet:machine")
 --
-
-minetest.register_node(
-    "ehlphabet:block",
-    {
-        description = S("Ehlphabet Block (blank)"),
-        tiles = {"ehlphabet_000.png"},
-        is_ground_content = false,
-        groups = {cracky = 3}
-    }
-)
 
 --RECIPE: blank blocks
 minetest.register_craft({
@@ -314,6 +301,11 @@ minetest.register_craft({
         {"default:paper", "", "default:paper"},
         {"default:paper", "default:paper", "default:paper"}
     }
+core.register_node("ehlphabet:block", {
+	description = S("Ehlphabet Block (blank)"),
+	tiles = { "ehlphabet_000.png" },
+	is_ground_content = false,
+	groups = { cracky = 3 },
 })
 
 --RECIPE: build the machine!
