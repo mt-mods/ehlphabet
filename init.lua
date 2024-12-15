@@ -74,13 +74,6 @@ local function is_multibyte(ch)
 end
 
 
-		description = "Printing",
-		icon = 'ehlphabet_machine_front.png',
-		width = 1,
-		height = 1,
-	})
-end
-
 local function generate(characters, craftable)
     for _, name in ipairs(characters) do
 -- For backward compatability with [abjphabet].
