@@ -140,6 +140,7 @@ local function generate(chars, add_to_guides)
 				not_in_creative_inventory = add_to_guides and 0 or 1,
 				not_in_crafting_guide = add_to_guides and 0 or 1,
 				not_blocking_trains = 1,
+				ehlphabet_sticker = 1,
 			},
 		})
 
@@ -189,6 +190,7 @@ core.register_node("ehlphabet:block", {
 		dig_immediate = 2,
 		not_in_creative_inventory = ehlphabet.has_unified_inventory and 0 or 1,
 		not_blocking_trains = ehlphabet.has_unified_inventory and 0 or 1,
+		ehlphabet_sticker = 1,
 	},
 })
 
