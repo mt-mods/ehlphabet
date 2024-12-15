@@ -226,8 +226,6 @@ core.register_node("ehlphabet:machine", {
                     if inputstack:get_name() == "default:paper" then
 		       clist = characters_sticker
 		    end
-                    for _, v in pairs(clist) do
-                    end
                 end
             end
         end
@@ -275,6 +273,7 @@ core.register_node("ehlphabet:machine", {
 			return
 		end
 
+		for _, v in ipairs(clist) do
 			if v == ch then
 				inv:add_item("output", "ehlphabet:" .. key)
 				inputstack:take_item()
