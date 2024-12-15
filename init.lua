@@ -173,6 +173,7 @@ core.register_node("ehlphabet:block", {
 })
 
 -- Register blank sticker.
+core.register_node("ehlphabet:32_sticker", {
 	tiles = { "ehlphabet_000.png" },
 	paramtype = "light",
 	paramtype2 = "wallmounted", -- "colorwallmounted",
