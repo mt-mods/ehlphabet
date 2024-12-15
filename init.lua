@@ -215,18 +215,14 @@ core.register_node("ehlphabet:machine", {
 
 
 
-            local meta = minetest.env:get_meta(pos)
                 if player then
                     minetest.chat_send_player(
                         player:get_player_name(),
                         S("You cannot dig the @1 with blocks inside", S("Letter Machine"))
                     )
                 end -- end if player
-            local meta = minetest.env:get_meta(pos)
         end,
-            local meta = minetest.env:get_meta(pos)
                 "invsize[8,6;]" ..
-            local meta = minetest.env:get_meta(pos)
 
                 if  inputstack:get_name() == "ehlphabet:block"
                  or inputstack:get_name() == "default:paper" then
@@ -246,6 +242,7 @@ core.register_node("ehlphabet:machine", {
 )
 	-- "Can you dig it?" -Cyrus
 	can_dig = function(pos)
+		local meta = core.get_meta(pos)
 		local inv = meta:get_inventory()
 		if not inv:is_empty("input") or not inv:is_empty("output") then
 			return false
@@ -254,6 +251,7 @@ core.register_node("ehlphabet:machine", {
 	end,
 
 	on_construct = function(pos)
+		local meta = core.get_meta(pos)
 		local inv = meta:get_inventory()
 		inv:set_size("input", 1)
 		inv:set_size("output", 1)
@@ -269,6 +267,7 @@ core.register_node("ehlphabet:machine", {
 	on_receive_fields = function(pos, _, fields)
 		local ch = fields.lettername
 		if not ch or ch == "" then
+		local meta = core.get_meta(pos)
 		local inv = meta:get_inventory()
 		local inputstack = inv:get_stack("input", 1)
 		local outputstack = inv:get_stack("output", 1)
