@@ -216,7 +216,6 @@ core.register_node("ehlphabet:machine", {
 
 
         end,
-                "invsize[8,6;]" ..
 
                 if  inputstack:get_name() == "ehlphabet:block"
                  or inputstack:get_name() == "default:paper" then
@@ -250,6 +249,7 @@ core.register_node("ehlphabet:machine", {
 		inv:set_size("input", 1)
 		inv:set_size("output", 1)
 		meta:set_string("formspec",
+			"size[8,6]" ..
 			"field[3.8,.5;1,1;lettername;" .. S("Letter") .. ";]" ..
 			"list[context;input;2.5,0.2;1,1;]" ..
 			"list[context;output;4.5,0.2;1,1;]" ..
