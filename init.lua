@@ -76,10 +76,10 @@ end
 -- For backward compatability with [abjphabet].
 -- Used by generate() function.
 local create_alias = true
-		local desc = S("Ehlphabet Block '@1'", name)
 -- Helper function to generate blocks and stickers.
 local function generate(chars, add_to_guides)
 	for _, name in ipairs(chars) do
+		local desc = S('Ehlphabet Block "@1"', name)
 		local byte = name:byte()
 		local file, key
 
