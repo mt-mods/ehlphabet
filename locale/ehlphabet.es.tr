@@ -1,0 +1,14 @@
+# textdomain: ehlphabet
+# Spanish translation of ehlphabet mod
+# This file is distributed under the same license as the ehlphabet package.
+
+### init.lua ###
+Ehlphabet Block "@1"=Bloque Ehlphabet «@1»
+Ehlphabet Sticker "@1"=Etiqueta Ehlphabet «@1»
+# literal alternative "Maquina de letras"
+Letter Machine=Impresora
+Letter=Letra
+Blank -> Letter=Blanco -> Letra
+Ehlphabet Block (blank)=Bloque Ehlphabet (blanco)
+Ehlphabet Sticker (blank)=Etiqueta Ehlphabet (blanco)
+
