@@ -6,7 +6,6 @@ core.register_craft({
 	recipe = { "group:ehlphabet_block" },
 })
 
--- blank blocks
 core.register_craft({
 	output = "ehlphabet:block 8",
 	recipe = {
@@ -16,7 +15,7 @@ core.register_craft({
 	},
 })
 
--- build the machine!
+-- Build the machine!
 core.register_craft({
 	output = "ehlphabet:machine",
 	recipe = {
@@ -26,14 +25,17 @@ core.register_craft({
 	},
 })
 
--- craft unused blocks back into paper
+-- Blank blocks.
+-- Uncraft blocks back into paper
 core.register_craft({
 	output = "default:paper",
 	recipe = { "ehlphabet:block" },
 	type = "shapeless",
 })
 
--- Chinese Characters - craft from latin characters
+-- Recycle printed blocks.
+-- Recycle printed stickers.
+-- Chinese character blocks - craft from latin characters.
 core.register_craft({
 	output = "ehlphabet:231140 4",
 	recipe = {
@@ -97,7 +99,7 @@ core.register_craft({
 	},
 })
 
--- stickers
+-- Chinese stickers.
 core.register_craft({
 	output = "ehlphabet:231140_sticker 4",
 	recipe = {

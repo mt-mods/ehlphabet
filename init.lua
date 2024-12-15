@@ -7,10 +7,12 @@ ehlphabet.path = core.get_modpath(core.get_current_modname())
 local S = dofile(ehlphabet.path .. "/intllib.lua")
 ehlphabet.intllib = S
 
--- register crafting recipes
+-- Register crafting recipes.
 dofile(ehlphabet.path .. "/crafts.lua")
 
 
+-- Helper function to append table to table.
+-- Since table.insert_all() might not be available.
 local function table_merge(t1, t2)
 	for _, v in ipairs(t2) do
 		table.insert(t1, v)
@@ -57,6 +59,7 @@ table_merge(characters_sticker, additional_chars)
 table.insert(characters_sticker, " ")
 
 
+-- Helper function to detect multi-byte characters.
 local function is_multibyte(ch)
 	local byte = ch:byte()
 	-- return (195 == byte) or (208 == byte) or (209 == byte)
@@ -82,12 +85,16 @@ end
 
 local function generate(characters, craftable)
     for _, name in ipairs(characters) do
+-- For backward compatability with [abjphabet].
+-- Used by generate() function.
 local create_alias = true
 		local desc = S("Ehlphabet Block '@1'", name)
+-- Helper function to generate blocks and stickers.
 		local byte = name:byte()
 		local mb = is_multibyte(name)
 		local file, key
 
+		-- Adjust for multi-byte characters.
 		if mb then
 			mb = byte
 			byte = name:byte(2)
@@ -103,6 +110,7 @@ local create_alias = true
             {
             }
         )
+		-- Register the block node.
 			description = desc,
 			tiles = { "ehlphabet_" .. file .. ".png" },
 			paramtype2 = "facedir",
@@ -116,11 +124,11 @@ local create_alias = true
 			},
 		--core.register_craft({ type = "shapeless", output = "ehlphabet:block", recipe = { key } })
 
+		-- Backward compat for base latin characters.
 		if create_alias then
 			core.register_alias("abjphabet:" .. name, key)
 		end
-
-		-- deactivate alias creation on last latin character
+		-- Deactivate alias creation on last latin character.
 		if name == "Z" then
 			create_alias = false
 		end
@@ -151,9 +159,11 @@ local create_alias = true
                 },
             }
         )
+		-- Register the sticker node.
 
 		if ui then
 			ui.register_craft({
+		-- Register both with [unified_inventory] when available.
 				type = "ehlphabet",
 				items = { "ehlphabet:block" },
 				output = key,
@@ -167,11 +177,11 @@ local create_alias = true
 	end
 end
 
--- generate all available blocks and stickers
 generate(characters, add_to_guides)
+-- Generate all available blocks and stickers.
 generate(additional_chars, true)
 
--- blank node
+-- Register blank node.
 core.register_node("ehlphabet:block", {
 	description = S("Ehlphabet Block (blank)"),
 	tiles = { "ehlphabet_000.png" },
@@ -179,7 +189,7 @@ core.register_node("ehlphabet:block", {
 	groups = { cracky = 3 },
 })
 
--- blank sticker
+-- Register blank sticker.
 	tiles = { "ehlphabet_000.png" },
 	paramtype = "light",
 	paramtype2 = "wallmounted", -- "colorwallmounted",
@@ -209,6 +219,8 @@ minetest.register_node(
  key.."_sticker",
  {
     description = desc.."Sticker",
+
+-- Register printer.
 core.register_node("ehlphabet:machine", {
 	description = S("Letter Machine"),
 	tiles = {
@@ -227,7 +239,6 @@ core.register_node("ehlphabet:machine", {
 
 
 
-        -- "Can you dig it?" -Cyrus
         can_dig = function(pos, player)
             local meta = minetest.env:get_meta(pos)
             local inv = meta:get_inventory()
@@ -293,6 +304,7 @@ core.register_node("ehlphabet:machine", {
         end
     }
 )
+	-- "Can you dig it?" -Cyrus
 			if v == ch then
 				inv:add_item("output", "ehlphabet:" .. key_new)
 				inputstack:take_item()
