@@ -73,10 +73,11 @@ local function is_multibyte(ch)
 	end
 end
 
+
 -- For backward compatability with [abjphabet].
 -- Used by generate() function.
 local create_alias = true
--- Helper function to generate blocks and stickers.
+-- Helper function to register blocks and stickers.
 local function generate(chars, add_to_guides)
 	for _, name in ipairs(chars) do
 		local desc = S('Ehlphabet Block "@1"', name)
@@ -115,6 +116,7 @@ local function generate(chars, add_to_guides)
 			core.register_alias("abjphabet:" .. name, key)
 		end
 		-- Deactivate alias creation on last latin character.
+		-- [abjphabet] didn't have more characters.
 		if name == "Z" then
 			create_alias = false
 		end
@@ -160,7 +162,7 @@ local function generate(chars, add_to_guides)
 	end
 end
 
--- Generate all available blocks and stickers.
+-- Register all available blocks and stickers.
 generate(characters, ehlphabet.has_unified_inventory)
 generate(additional_chars, true)
 
@@ -267,13 +269,15 @@ core.register_node("ehlphabet:machine", {
 		end
 		local out_stack_name = outputstack:get_name()
 		if out_stack_name ~= "" and out_stack_name ~= "ehlphabet:" .. key then
-			-- other type in output slot -> abort
+			-- Output inventory is not empty or contains other type
+			-- than what is being printed -> abort.
 			return
 		end
 
 		local clist = input_is_paper and characters_sticker or characters
 		for _, v in ipairs(clist) do
 			if v == ch then
+				-- Input char is a valid match.
 				inv:add_item("output", "ehlphabet:" .. key)
 				inputstack:take_item()
 				inv:set_stack("input", 1, inputstack)
