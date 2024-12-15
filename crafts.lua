@@ -4,7 +4,13 @@ core.register_craft({
 	type = "shapeless",
 	output = "ehlphabet:block",
 	recipe = { "group:ehlphabet_block" },
-})
+if ehlphabet.has_unified_inventory then
+	unified_inventory.register_craft_type("ehlphabet", {
+		description = "Printing",
+		icon = 'ehlphabet_machine_front.png',
+		width = 1,
+		height = 1,
+	})
 
 core.register_craft({
 	output = "ehlphabet:block 8",
@@ -14,6 +20,12 @@ core.register_craft({
 		{ "default:paper", "default:paper", "default:paper" },
 	},
 })
+	unified_inventory.register_craft({
+		type = "ehlphabet",
+		items = { "default:paper" },
+		output = "ehlphabet:32_sticker",
+	})
+end
 
 -- Build the machine!
 core.register_craft({

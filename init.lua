@@ -7,6 +7,9 @@ ehlphabet.path = core.get_modpath(core.get_current_modname())
 local S = dofile(ehlphabet.path .. "/intllib.lua")
 ehlphabet.intllib = S
 
+ehlphabet.has_unified_inventory = core.get_modpath("unified_inventory")
+			and core.global_exists("unified_inventory") and true or false
+
 -- Register crafting recipes.
 dofile(ehlphabet.path .. "/crafts.lua")
 
@@ -70,12 +73,7 @@ local function is_multibyte(ch)
 	end
 end
 
-local ui = core.get_modpath("unified_inventory")
-			and core.global_exists("unified_inventory") and unified_inventory
-local add_to_guides = ui and true or false
 
-if ui then
-	ui.register_craft_type("ehlphabet", {
 		description = "Printing",
 		icon = 'ehlphabet_machine_front.png',
 		width = 1,
@@ -161,14 +159,14 @@ local create_alias = true
         )
 		-- Register the sticker node.
 
-		if ui then
-			ui.register_craft({
 		-- Register both with [unified_inventory] when available.
+		if ehlphabet.has_unified_inventory then
+			unified_inventory.register_craft({
 				type = "ehlphabet",
 				items = { "ehlphabet:block" },
 				output = key,
 			})
-			ui.register_craft({
+			unified_inventory.register_craft({
 				type = "ehlphabet",
 				items = { "default:paper" },
 				output = key .. "_sticker",
@@ -177,8 +175,8 @@ local create_alias = true
 	end
 end
 
-generate(characters, add_to_guides)
 -- Generate all available blocks and stickers.
+generate(characters, ehlphabet.has_unified_inventory)
 generate(additional_chars, true)
 
 -- Register blank node.
@@ -206,8 +204,8 @@ core.register_node("ehlphabet:block", {
 	groups = {
 		attached_node = 1,
 		dig_immediate = 2,
-		not_in_creative_inventory = 1,
-		not_blocking_trains = 1,
+		not_in_creative_inventory = ehlphabet.has_unified_inventory and 0 or 1,
+		not_blocking_trains = ehlphabet.has_unified_inventory and 0 or 1,
 	},
 })
 
