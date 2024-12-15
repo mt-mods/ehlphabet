@@ -198,14 +198,6 @@ core.register_node("ehlphabet:block", {
 	},
 })
 
-local key = "ehlphabet:32"
-local file = ("%03d"):format(32)
-local desc = S("Ehlphabet Block '@1'", name)
-
-minetest.register_node(
- key.."_sticker",
- {
-    description = desc.."Sticker",
 
 -- Register printer.
 core.register_node("ehlphabet:machine", {
