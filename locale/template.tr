@@ -1,0 +1,13 @@
+# textdomain: ehlphabet
+# x translation of ehlphabet mod
+# This file is distributed under the same license as the ehlphabet package.
+
+### init.lua ###
+Ehlphabet Block "@1"=
+Ehlphabet Sticker "@1"=
+Letter Machine=
+Letter=
+Blank -> Letter=
+Ehlphabet Block (blank)=
+Ehlphabet Sticker (blank)=
+
