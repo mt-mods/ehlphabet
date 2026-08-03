@@ -3,7 +3,7 @@
 if ehlphabet.has_unified_inventory then
 	unified_inventory.register_craft_type("ehlphabet", {
 		description = "Printing",
-		icon = 'ehlphabet_machine_front.png',
+		icon = "ehlphabet_machine_front.png",
 		width = 1,
 		height = 1,
 	})
@@ -124,7 +124,7 @@ core.register_craft({
 core.register_craft({
 	output = "ehlphabet:231140_sticker 4",
 	recipe = {
-		{ "", "", ""},
+		{ "", "", "" },
 		{ "ehlphabet:78_sticker", "", "" },
 		{ "ehlphabet:69_sticker", "ehlphabet:75_sticker", "ehlphabet:79_sticker" },
 	},
@@ -183,4 +183,3 @@ core.register_craft({
 		{ "ehlphabet:78_sticker", "", "" },
 	},
 })
-

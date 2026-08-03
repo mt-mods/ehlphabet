@@ -1,15 +1,15 @@
-
 ehlphabet = {}
 ehlphabet.path = core.get_modpath(core.get_current_modname())
 
 local S = core.get_translator("ehlphabet")
 
 ehlphabet.has_unified_inventory = core.get_modpath("unified_inventory")
-			and core.global_exists("unified_inventory") and true or false
+		and core.global_exists("unified_inventory")
+		and true
+	or false
 
 -- Register crafting recipes.
 dofile(ehlphabet.path .. "/crafts.lua")
-
 
 -- Helper function to append table to table.
 -- Since table.insert_all() might not be available.
@@ -20,28 +20,129 @@ local function table_merge(t1, t2)
 	return t1
 end
 
-
 local digits = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" }
 local base_chars = {
-	"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O",
-	"P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"
+	"A",
+	"B",
+	"C",
+	"D",
+	"E",
+	"F",
+	"G",
+	"H",
+	"I",
+	"J",
+	"K",
+	"L",
+	"M",
+	"N",
+	"O",
+	"P",
+	"Q",
+	"R",
+	"S",
+	"T",
+	"U",
+	"V",
+	"W",
+	"X",
+	"Y",
+	"Z",
 }
 local special_chars = {
-	"!", "#", "$", "%", "&", "(", ")", "*", "+", ",", "-", ".", "/", ":", ";",
-	"<", "=", ">", "?", "@", "'", '"'
+	"!",
+	"#",
+	"$",
+	"%",
+	"&",
+	"(",
+	")",
+	"*",
+	"+",
+	",",
+	"-",
+	".",
+	"/",
+	":",
+	";",
+	"<",
+	"=",
+	">",
+	"?",
+	"@",
+	"'",
+	'"',
 }
 local german_chars = { "Ä", "Ö", "Ü", "ß" }
 local cyrillic_chars = {
-	"А", "Б", "В", "Г", "Д", "Е", "Ё", "Ж", "З", "И", "Й", "К", "Л", "М", "Н",
-	"О", "П", "Р", "С", "Т", "У", "Ф", "Х", "Ц", "Ч", "Ш", "Щ", "Ъ", "Ы", "Ь",
-	"Э", "Ю", "Я"
+	"А",
+	"Б",
+	"В",
+	"Г",
+	"Д",
+	"Е",
+	"Ё",
+	"Ж",
+	"З",
+	"И",
+	"Й",
+	"К",
+	"Л",
+	"М",
+	"Н",
+	"О",
+	"П",
+	"Р",
+	"С",
+	"Т",
+	"У",
+	"Ф",
+	"Х",
+	"Ц",
+	"Ч",
+	"Ш",
+	"Щ",
+	"Ъ",
+	"Ы",
+	"Ь",
+	"Э",
+	"Ю",
+	"Я",
 }
 local greek_chars = {
-	"Α", "Β", "Γ", "Δ", "Ε", "Ζ", "Η", "Θ", "Ι", "Κ", "Λ", "Μ", "Ν", "Ξ", "Ο",
-	"Π", "Ρ", "Σ", "Τ", "Υ", "Φ", "Χ", "Ψ", "Ω"
+	"Α",
+	"Β",
+	"Γ",
+	"Δ",
+	"Ε",
+	"Ζ",
+	"Η",
+	"Θ",
+	"Ι",
+	"Κ",
+	"Λ",
+	"Μ",
+	"Ν",
+	"Ξ",
+	"Ο",
+	"Π",
+	"Ρ",
+	"Σ",
+	"Τ",
+	"Υ",
+	"Φ",
+	"Χ",
+	"Ψ",
+	"Ω",
 }
 local additional_chars = {
-	"猫","北","东","東","南","西","站",
+	"猫",
+	"北",
+	"东",
+	"東",
+	"南",
+	"西",
+	"站",
 }
 
 local characters = {}
@@ -58,7 +159,6 @@ table_merge(characters_sticker, characters)
 table_merge(characters_sticker, additional_chars)
 table.insert(characters_sticker, " ")
 
-
 -- Helper function to detect multi-byte characters.
 local function is_multibyte(ch)
 	local byte = ch:byte()
@@ -69,7 +169,6 @@ local function is_multibyte(ch)
 		return byte > 191
 	end
 end
-
 
 -- For backward compatability with [abjphabet].
 -- Used by generate() function.
@@ -194,7 +293,6 @@ core.register_node("ehlphabet:32_sticker", {
 	},
 })
 
-
 -- Register printer.
 core.register_node("ehlphabet:machine", {
 	description = S("Letter Machine"),
@@ -226,17 +324,22 @@ core.register_node("ehlphabet:machine", {
 		local inv = meta:get_inventory()
 		inv:set_size("input", 1)
 		inv:set_size("output", 1)
-		meta:set_string("formspec",
-			"size[8,6]" ..
-			"field[3.8,.5;1,1;lettername;" .. S("Letter") .. ";]" ..
-			"list[context;input;2.5,0.2;1,1;]" ..
-			"list[context;output;4.5,0.2;1,1;]" ..
-			"list[current_player;main;0,2;8,4;]" ..
-			"listring[current_player;main]" ..
-			"listring[context;input]" ..
-			"listring[current_player;main]" ..
-			"listring[context;output]" ..
-			"button[2.54,-0.25;3,4;name;" .. S("Blank -> Letter") .. "]"
+		meta:set_string(
+			"formspec",
+			"size[8,6]"
+				.. "field[3.8,.5;1,1;lettername;"
+				.. S("Letter")
+				.. ";]"
+				.. "list[context;input;2.5,0.2;1,1;]"
+				.. "list[context;output;4.5,0.2;1,1;]"
+				.. "list[current_player;main;0,2;8,4;]"
+				.. "listring[current_player;main]"
+				.. "listring[context;input]"
+				.. "listring[current_player;main]"
+				.. "listring[context;output]"
+				.. "button[2.54,-0.25;3,4;name;"
+				.. S("Blank -> Letter")
+				.. "]"
 		)
 	end,
 
@@ -289,4 +392,3 @@ core.register_alias("abjphabet:machine", "ehlphabet:machine")
 --
 
 --print("[ehlphabet] loaded")
-
